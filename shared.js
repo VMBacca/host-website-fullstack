@@ -54,3 +54,9 @@ ctaButton.addEventListener("animationend", function (event) {
 ctaButton.addEventListener("animationiteration", function (event) {
   console.log("Animation iteration", event);
 });
+
+fetch("/api/plans")
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data);
+  });
