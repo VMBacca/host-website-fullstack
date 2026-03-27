@@ -13,8 +13,8 @@ let plans = [
 ];
 
 // GET
-app.get("/api/plans", (req, res) => {
-  res.json(plans);
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 // POST
