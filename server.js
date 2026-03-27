@@ -1,39 +1,49 @@
 const express = require("express");
 const path = require("path");
+
 const app = express();
 
+// Middleware
 app.use(express.json());
 
-app.use(express.static(__dirname));
+// memory "bank"
+let users = [];
 
-// "fake data"
-let plans = [
-  { id: 1, name: "Basic", price: 10 },
-  { id: 2, name: "Pro", price: 20 },
-];
+// API Routes
 
-// GET
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+// GET - list users
+app.get("/api/users", (req, res) => {
+  res.json(users);
 });
 
-// POST
-app.post("/api/plans", (req, res) => {
-  const newPlan = {
-    id: plans.length + 1,
-    name: req.body.name,
-    price: req.body.price,
-  };
+// POST - add users
+app.post("/api/users", (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
 
-  plans.push(newPlan);
+  // validation
+  if (!firstName || !lastName || !email || !password) {
+    return res.status(400).json({ error: "Dados incompletos" });
+  }
 
-  res.status(201).json(newPlan);
+  const newUser = { firstName, lastName, email };
+  users.push(newUser);
+
+  res.status(201).json(newUser);
 });
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+// API test route
+app.get("/teste", (req, res) => {
+  res.send("API OK");
 });
 
-app.listen(3000, () => {
-  console.log("Servidor rodando na porta 3000");
+// Static files
+
+app.use(express.static(path.join(__dirname, "public")));
+
+// Start server
+
+const PORT = 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

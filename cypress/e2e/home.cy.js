@@ -1,18 +1,14 @@
 describe("Homepage", () => {
   it("should load the homepage", () => {
     cy.visit("http://localhost:3000");
+    cy.url().should("include", "localhost:3000");
   });
 
-  it("should display main content", () => {
+  it("should display main structure", () => {
     cy.visit("http://localhost:3000");
-    cy.contains("Hosting"); // ajusta conforme texto da sua página
-  });
-});
 
-describe("API Test", () => {
-  it("should return plans", () => {
-    cy.request("http://localhost:3000/api/plans")
-      .its("status")
-      .should("eq", 200);
+    cy.get("body").should("be.visible");
+    cy.get("header").should("exist");
+    cy.get("footer").should("exist");
   });
 });

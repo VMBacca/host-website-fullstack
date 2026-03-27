@@ -4,3 +4,5 @@ cypress/screenshots/
 .env
 .DS_Store
 coverage/
+data/users.json
+*.db
